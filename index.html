@@ -261,6 +261,12 @@ function computerturn()
 				if (pos == 30) {
 					clearInterval(id);
 					gettile(spot).style.backgroundColor = "white"; 
+	checkwinner("O")
+	
+	if(gamedone)
+		return;
+	document.getElementById("displaywin").innerHTML = "Click a tile to place a 'X'";
+	playerturn = true;
 				} else {
 					pos++;
 					colorratio = (pos/30)*255;
@@ -269,12 +275,6 @@ function computerturn()
 			}
 		}
 	}
-	checkwinner("O")
-	
-	if(gamedone)
-		return;
-	document.getElementById("displaywin").innerHTML = "Click a tile to place a 'X'";
-	playerturn = true;
 }
 
 function selecttile(item)
