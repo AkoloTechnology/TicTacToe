@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- version 1.1 -->
+<!-- version 1.2 -->
 <title>Tic-Tac-Toe</title>
 <style>
 table {
@@ -96,9 +96,11 @@ function gettile(number)
 
 function resetgame(ele)
 {
+
+	document.cookie = "wins=John Smith; expires=Thu, 18 Dec 2013 12:00:00 UTC
 	gamedone = false;
 	playerturn = true;
-	document.getElementById("displaywin").innerHTML = "Click a tile to place an 'X'";
+	document.getElementById("displaywin").innerHTML = "Click a tile to place an X";
 	document.getElementById("playagain").hidden = true;
 	for(let i = 1; i <= 9; i++)
 	{
@@ -209,7 +211,7 @@ function checkwinner(piece)
 		
 	if(gamedone)
 	{
-		document.getElementById("displaywin").innerHTML = "'" + piece + "' wins!";
+		document.getElementById("displaywin").innerHTML =  piece + " wins!";
 		document.getElementById("playagain").hidden = false;
 		if (piece == "X")
 			wins += 1;
@@ -263,7 +265,7 @@ function computerturn()
 	
 	if(gamedone)
 		return;
-	document.getElementById("displaywin").innerHTML = "Click a tile to place an 'X'";
+	document.getElementById("displaywin").innerHTML = "Click a tile to place an X";
 	playerturn = true;
 				} else {
 					pos++;
@@ -291,7 +293,7 @@ function selecttile(item)
 		if(gamedone)
 			return;
 		playerturn = false;
-		document.getElementById("displaywin").innerHTML = "'O' turn!";
+		document.getElementById("displaywin").innerHTML = "O's turn!";
 		setTimeout(computerturn, 500);
 	}
 }
