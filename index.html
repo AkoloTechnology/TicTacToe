@@ -111,6 +111,7 @@ function resetgame(ele)
 
 function updatescore()
 {
+	/*
 	var winstext;
 	var losestext;
 	var drawstext;
@@ -126,24 +127,29 @@ function updatescore()
 		drawstext = draws + " Draw";
 	else
 		drawstext = draws + " Draws";			
-	document.getElementById("scoretext").innerHTML = winstext + " - " + losestext + " - " + drawstext;
+	document.getElementById("scoretext").innerHTML = winstext + " - " + losestext + " - " + drawstext;*/
+	document.getElementById("scoretext").innerHTML = 
+	wins + (wins == 1 ? " Win - ":" Wins - ") +
+	loses + (loses == 1 ? " Lose - ":" Loses - ") +
+	draws + (draws == 1 ? " Draw":" Draws");
 }
 
-function placetaken(item) {
-	if(item.style.backgroundColor != "white")
+// makes tile flash red if it was already taken
+function placetaken(tile) {
+	if(tile.style.backgroundColor != "white")
 		return;
 	var pos = 0;
 	var id = setInterval(() => {	
-		if(item.style.backgroundColor == "lightgreen") {
+		if(tile.style.backgroundColor == "lightgreen") {
 			clearInterval(id);
 			return;
 		}
 		if (pos == 30) {
 			clearInterval(id);
-			item.style.backgroundColor = "white"; 
+			tile.style.backgroundColor = "white"; 
 		} else {
 			let colorratio = (pos++ / 30) * 255;
-			item.style.backgroundColor = 'rgb(255,' + colorratio + ',' + colorratio + ')';
+			tile.style.backgroundColor = 'rgb(255,' + colorratio + ',' + colorratio + ')';
 		}
 	}, 10);
 }
