@@ -18,18 +18,19 @@ td {
 	font-size: 100px;
 	overflow: hidden;
 	line-height: 0;
-  font-family: Arial, sans-serif;
+  	font-family: Arial, sans-serif;
 }
 #toptext {
 	text-align: center;
 	font-size: 75px;
-  font-family: 'Brush Script MT', cursive;
+  	font-family: 'Brush Script MT', cursive;
 	line-height: 0;
 	user-select: none;
 }
 #displaywin {
 	text-align: center;
 	font-size: 25px;
+	user-select: none;
 }
 #butdiv {
   position: relative;
@@ -42,15 +43,16 @@ td {
 	height: 5px;
 }
 #playagain {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  font-size: 20px;
-  background-color: white;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	font-size: 20px;
+	background-color: white;
 	border: 1px solid black;
 	user-select: none;
+	cursor: pointer;
 }
 </style>
 </head>
@@ -127,8 +129,7 @@ function updatescore()
 	document.getElementById("scoretext").innerHTML = winstext + " - " + losestext + " - " + drawstext;
 }
 
-function placetaken(item)
-{
+function placetaken(item) {
 	if(item.style.backgroundColor != "white")
 		return;
 	var id = null;	  
@@ -137,11 +138,10 @@ function placetaken(item)
 	id = setInterval(frame, 10);
 	function frame() {
 	
-	if(item.style.backgroundColor == "lightgreen")
-	{
-	clearInterval(id);
+	if(item.style.backgroundColor == "lightgreen") {
+		clearInterval(id);
 		return;
-		}
+	}
 	if (pos == 30) {
 			clearInterval(id);
 			item.style.backgroundColor = "white"; 
@@ -295,6 +295,7 @@ function selecttile(item)
 		setTimeout(computerturn, 500);
 	}
 }
+
 resetgame();
 </script>
 </body>
