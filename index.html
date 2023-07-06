@@ -96,7 +96,7 @@ function gettile(number)
 	return document.getElementById("tile" + number);
 }
 
-function resetgame(ele)
+function resetgame()
 {
 	gamedone = false;
 	playerturn = true;
@@ -111,23 +111,6 @@ function resetgame(ele)
 
 function updatescore()
 {
-	/*
-	var winstext;
-	var losestext;
-	var drawstext;
-	if (wins == 1)
-		winstext = wins + " Win";
-	else
-		winstext = wins + " Wins";
-	if (loses == 1)
-		losestext = loses + " Lose";
-	else
-		losestext = loses + " Loses";	
-	if (draws == 1)
-		drawstext = draws + " Draw";
-	else
-		drawstext = draws + " Draws";			
-	document.getElementById("scoretext").innerHTML = winstext + " - " + losestext + " - " + drawstext;*/
 	document.getElementById("scoretext").innerHTML = 
 	wins + (wins == 1 ? " Win - ":" Wins - ") +
 	loses + (loses == 1 ? " Lose - ":" Loses - ") +
