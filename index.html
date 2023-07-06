@@ -132,25 +132,20 @@ function updatescore()
 function placetaken(item) {
 	if(item.style.backgroundColor != "white")
 		return;
-	var id = null;	  
 	var pos = 0;
-	clearInterval(id);
-	id = setInterval(frame, 10);
-	function frame() {
-	
-	if(item.style.backgroundColor == "lightgreen") {
-		clearInterval(id);
-		return;
-	}
-	if (pos == 30) {
+	var id = setInterval(() => {	
+		if(item.style.backgroundColor == "lightgreen") {
+			clearInterval(id);
+			return;
+		}
+		if (pos == 30) {
 			clearInterval(id);
 			item.style.backgroundColor = "white"; 
 		} else {
-			pos++;
-			colorratio = (pos/30)*255;
+			let colorratio = (pos++ / 30) * 255;
 			item.style.backgroundColor = 'rgb(255,' + colorratio + ',' + colorratio + ')';
 		}
-	}
+	}, 10);
 }
 
 function checkwinner(piece)
