@@ -136,10 +136,10 @@
 					tile.div.innerHTML = '';
 					tile.div.style.color = 'rgb(0,0,0)'
 				} else {
-					posratio = pos/30
-					redratio = posratio*(255-colors[0])+colors[0];
-					greenratio = posratio*(255-colors[1])+colors[1];
-					blueratio = posratio*(255-colors[2])+colors[2];
+					var posratio = pos/30
+					var redratio = posratio*(255-colors[0])+colors[0];
+					var greenratio = posratio*(255-colors[1])+colors[1];
+					var blueratio = posratio*(255-colors[2])+colors[2];
 					tile.div.style.backgroundColor = 'rgb(' + redratio + ',' + greenratio + ',' + blueratio + ')';
 					tile.div.style.color = 'rgb(' + (posratio*255) + ',' + (posratio*255) + ',' + (posratio*255) + ')';
 					pos++;
@@ -185,7 +185,7 @@
 							clearInterval(id);
 							tile.div.style.backgroundColor = 'rgb(100,255,100)';
 						} else {
-							colorratio = 255-(pos++/20)*155;
+							var colorratio = 255-(pos++/20)*155;
 							tile.div.style.backgroundColor = 'rgb(' + colorratio + ',255,' + colorratio + ')';
 						}
 					}, 10);
@@ -234,7 +234,7 @@
 					return;
 				
 				document.querySelector("#displaywin").innerHTML = "Click a tile to place an " + playerpiece;
-				playerturn = true;		
+				setTimeout(() => playerturn = true, 100);
 			} else {
 				var colorratio = (pos++/30)*255;
 				tile.div.style.backgroundColor = 'rgb(255,255,' + colorratio + ')';
@@ -274,7 +274,7 @@
 				document.querySelector("#displaywin").innerHTML = computerpiece + "'s turn!";
 				setTimeout(computerturn, 500);
 			} else {
-				colorratio = (pos++/20)*155+100;
+				var colorratio = (pos++/20)*155+100;
 				tile.div.style.backgroundColor = 'rgb(' + colorratio + ',255,255)';
 			}
 		}, 10);
