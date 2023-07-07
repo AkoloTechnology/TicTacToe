@@ -1,286 +1,279 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- version 1.3 -->
-<title>Tic-Tac-Toe</title>
-<style>
-table {
-	height: 600px;
-	margin: 50px  auto 10px;
-}
-table, td {
-	border: 1px solid black;
-}
-td {
-	text-align: center;
-	width: 200px;
-	user-select: none;
-	font-size: 100px;
-	overflow: hidden;
-	line-height: 0;
-  	font-family: Arial, sans-serif;
-}
-#toptext {
-	text-align: center;
-	font-size: 75px;
-  	font-family: 'Brush Script MT', cursive;
-	line-height: 0;
-	user-select: none;
-}
-#displaywin {
-	text-align: center;
-	font-size: 25px;
-	user-select: none;
-}
-#butdiv {
-  position: relative;
-}
-#scoretext {
-	text-align: center;
-	font-size: 20px;
-	line-height: 0;
-	user-select: none;
-	height: 5px;
-}
-#playagain {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	-ms-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%);
-	font-size: 20px;
-	background-color: white;
-	border: 1px solid black;
-	user-select: none;
-	cursor: pointer;
-}
-</style>
+	<title>Tic-Tac-Toe</title>
+	<style>
+	table {
+		height: 600px;
+		margin: 50px  auto 10px;
+	}
+	table, td {
+		border: 1px solid black;
+	}
+	td {
+		text-align: center;
+		width: 200px;
+		user-select: none;
+		font-size: 100px;
+		overflow: hidden;
+		line-height: 0;
+		font-family: Arial, sans-serif;
+	}
+	#toptext {
+		text-align: center;
+		font-size: 75px;
+		font-family: 'Brush Script MT', cursive;
+		line-height: 0;
+		user-select: none;
+	}
+	#displaywin {
+		text-align: center;
+		font-size: 25px;
+		user-select: none;
+	}
+	#butdiv {
+		position: relative;
+	}
+	#scoretext {
+		text-align: center;
+		font-size: 20px;
+		line-height: 0;
+		user-select: none;
+		height: 5px;
+	}
+	#playagain {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		-ms-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+		font-size: 20px;
+		background-color: white;
+		border: 1px solid black;
+		user-select: none;
+		cursor: pointer;
+	}
+	</style>
 </head>
 <body>
 
-<p id="toptext">Tic-Tac-Toe</p>
-<p id="scoretext"></p>
+	<p id="toptext">Tic-Tac-Toe</p>
+	<p id="scoretext"></p>
 
-<table id="talentable">
-	<tr>
-		<td id="tile1" onclick="selecttile(this)"></td>
-		<td id="tile2" onclick="selecttile(this)"></td>
-		<td id="tile3" onclick="selecttile(this)"></td>
-	</tr>
-	<tr>
-		<td id="tile4" onclick="selecttile(this)"></td>
-		<td id="tile5" onclick="selecttile(this)"></td>
-		<td id="tile6" onclick="selecttile(this)"></td>
-	</tr>
-	<tr>
-		<td id="tile7" onclick="selecttile(this)"></td>
-		<td id="tile8" onclick="selecttile(this)"></td>
-		<td id="tile9" onclick="selecttile(this)"></td>
-	</tr>
-</table>
+	<table id="talentable">
+		<tr>
+			<td id="tile1" onclick="selecttile(this)"></td>
+			<td id="tile2" onclick="selecttile(this)"></td>
+			<td id="tile3" onclick="selecttile(this)"></td>
+		</tr>
+		<tr>
+			<td id="tile4" onclick="selecttile(this)"></td>
+			<td id="tile5" onclick="selecttile(this)"></td>
+			<td id="tile6" onclick="selecttile(this)"></td>
+		</tr>
+		<tr>
+			<td id="tile7" onclick="selecttile(this)"></td>
+			<td id="tile8" onclick="selecttile(this)"></td>
+			<td id="tile9" onclick="selecttile(this)"></td>
+		</tr>
+	</table>
 
-<p id="displaywin"></p>
-<div id="butdiv">
-	<button id="playagain" onclick="resetgame(this)">New Game</button>
-</div>
+	<p id="displaywin"></p>
+	<div id="butdiv">
+		<button id="playagain" onclick="playagain()">New Game</button>
+	</div>
 
-<script>
-var gamedone;
-var playerturn = true;
-var wins = 0;
-var loses = 0;
-var draws = 0;
+	<script>
+	var gamedone;
+	var playerturn = true;
+	var wins = 0;
+	var loses = 0;
+	var draws = 0;
+	var grid = [];
+	var playerpiece = '';
+	var computerpiece = '';
 
-function gettile(number)
-{
-	return document.getElementById("tile" + number);
-}
-
-function resetgame()
-{
-	gamedone = false;
-	playerturn = true;
-	document.getElementById("displaywin").innerHTML = "Click a tile to place an X";
-	document.getElementById("playagain").hidden = true;
-	for(let i = 1; i <= 9; i++)
-	{
-		gettile(i).style.backgroundColor = "white"; 
-		gettile(i).innerHTML = "";
+	window.onload = event => {
+		for(x = 1; x<=9; x++) grid.push({state: '', div: document.querySelector("#tile" + x)});
+		resetgame();
 	}
-}
 
-function updatescore()
-{
-	document.getElementById("scoretext").innerHTML = 
-	wins + (wins == 1 ? " Win - ":" Wins - ") +
-	loses + (loses == 1 ? " Lose - ":" Loses - ") +
-	draws + (draws == 1 ? " Draw":" Draws");
-}
+	function resetgame() {
+		gamedone = false;
+		playerturn = true;
+		document.getElementById("playagain").hidden = true;
+		grid.forEach(tile => {
+			tile.div.style.backgroundColor = "rgb(255,255,255)"; 
+			tile.state = '';
+		});
 
-// makes tile flash red if it was already taken
-function placetaken(tile) {
-	if(tile.style.backgroundColor != "white")
-		return;
-	var pos = 0;
-	var id = setInterval(() => {	
-		if(tile.style.backgroundColor == "lightgreen") {
-			clearInterval(id);
-			return;
-		}
-		if (pos == 30) {
-			clearInterval(id);
-			tile.style.backgroundColor = "white"; 
-		} else {
-			let colorratio = (pos++ / 30) * 255;
-			tile.style.backgroundColor = 'rgb(255,' + colorratio + ',' + colorratio + ')';
-		}
-	}, 10);
-}
+		playerpiece = Math.random() > 0.5 ? 'X' : 'O';
+		computerpiece = playerpiece == 'X' ? 'O' : 'X';
+		if(playerpiece == 'X') {
+			playerturn = true;
+			document.querySelector("#displaywin").innerHTML = "Click a tile to place an " + playerpiece;
+		} else
+			computerturn();
+	}
 
-function checkwinner(piece)
-{
-	function rowcheck3(num1, num2, num3)
-	{
-		var match = piece + piece + piece;
-		if(gettile(num1).innerHTML + gettile(num2).innerHTML + gettile(num3).innerHTML == match)
-		{
-			gettile(num1).style.backgroundColor = "lightgreen"; 
-			gettile(num2).style.backgroundColor = "lightgreen"; 
-			gettile(num3).style.backgroundColor = "lightgreen"; 
-			return true;
-		}
-		return false;
-	}
-	
-	function rowcheck5(num1, num2, num3, num4, num5)
-	{
-		var match = piece + piece + piece + piece + piece;
-		if(gettile(num1).innerHTML + gettile(num2).innerHTML + gettile(num3).innerHTML + gettile(num4).innerHTML + gettile(num5).innerHTML == match)
-		{
-			gettile(num1).style.backgroundColor = "lightgreen"; 
-			gettile(num2).style.backgroundColor = "lightgreen"; 
-			gettile(num3).style.backgroundColor = "lightgreen"; 
-			gettile(num4).style.backgroundColor = "lightgreen"; 
-			gettile(num5).style.backgroundColor = "lightgreen"; 
-			return true;
-		}
-		return false;
-	}
-	
-	// check corners
-	if(rowcheck5(1,2,3,4,7) || rowcheck5(1,2,3,6,9) || rowcheck5(1,4,7,8,9) || rowcheck5(3,6,7,8,9))
-		gamedone = true;
-	
-	// check topbottom with cross
-	if(rowcheck5(1,2,3,5,9) || rowcheck5(1,2,3,5,7) || rowcheck5(7,8,9,3,5) || rowcheck5(7,8,1,5,9))
-		gamedone = true;
-	
-	// check sides with cross
-	if(rowcheck5(1,4,7,5,9) || rowcheck5(1,4,3,5,7) || rowcheck5(3,6,9,5,7) || rowcheck5(3,6,1,5,9))
-		gamedone = true;
-	
-	// check T
-	if(rowcheck5(1,2,3,5,8) || rowcheck5(1,4,7,5,6) || rowcheck5(7,9,2,5,8) || rowcheck5(3,6,1,5,9))
-		gamedone = true;
-	
-	// check cross
-	if(rowcheck5(1,5,9,3,7))
-		gamedone = true;
-	
-	// single checks
-	if(rowcheck3(1,2,3) || rowcheck3(4,5,6) || rowcheck3(7,8,9) || rowcheck3(1,5,9) || rowcheck3(7,5,3) || rowcheck3(1,4,7) || rowcheck3(2,5,8) || rowcheck3(3,6,9))
-		gamedone = true;
-		
-	if(gamedone)
-	{
-		document.getElementById("displaywin").innerHTML =  piece + " wins!";
-		document.getElementById("playagain").hidden = false;
-		if (piece == "X")
-			wins += 1;
-		if (piece == "O")
-			loses += 1;
-		updatescore();
-		return;
-	}
-	
-	// check cats game
-	var catsgame = true;
-	for(let i = 1; i <= 9; i++)
-		if(gettile(i).innerHTML == "")
-			catsgame = false;
-	if(catsgame)
-	{
-		gamedone = true;
-		document.getElementById("displaywin").innerHTML = "Cat's game!";
-		document.getElementById("playagain").hidden = false;
-		draws += 1;
-		updatescore();
-		return;
-	}
-}
-
-function computerturn()
-{
-	if(gamedone)
-		return;
-	var pieceplaced = false;
-	while (!pieceplaced) {
-		spot = Math.floor((Math.random()*9)) + 1;
-		if(gettile(spot).innerHTML == "") {
-			gettile(spot).innerHTML = "O";
-			pieceplaced = true;
-			if(gettile(spot).style.backgroundColor != "white")
-				break;
-			var id = null;	  
+	function playagain () {		
+		document.getElementById("playagain").hidden = true;
+		document.querySelector("#displaywin").innerHTML = '';
+		grid.forEach(tile => {
 			var pos = 0;
-			clearInterval(id);
-			id = setInterval(frame, 10);
-			function frame() {			
-				if(gettile(spot).style.backgroundColor == "lightgreen") {
-					clearInterval(id);
-					return;
-				}
+			var colors = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/.exec(tile.div.style.backgroundColor)
+			colors = colors.slice(1).map(e => Number(e));
+			var id = setInterval(() => {
 				if (pos == 30) {
 					clearInterval(id);
-					gettile(spot).style.backgroundColor = "white"; 
-	checkwinner("O")
-	
-	if(gamedone)
-		return;
-	document.getElementById("displaywin").innerHTML = "Click a tile to place an X";
-	playerturn = true;
+					tile.div.innerHTML = '';
+					tile.div.style.color = 'rgb(0,0,0)'
 				} else {
+					posratio = pos/30
+					redratio = posratio*(255-colors[0])+colors[0];
+					greenratio = posratio*(255-colors[1])+colors[1];
+					blueratio = posratio*(255-colors[2])+colors[2];
+					tile.div.style.backgroundColor = 'rgb(' + redratio + ',' + greenratio + ',' + blueratio + ')';
+					tile.div.style.color = 'rgb(' + (posratio*255) + ',' + (posratio*255) + ',' + (posratio*255) + ')';
 					pos++;
-					colorratio = (pos/30)*255;
-					gettile(spot).style.backgroundColor = 'rgb(255,255,' + colorratio + ')';
 				}
+			}, 10);
+		});
+		setTimeout(resetgame, 500);
+	}
+
+	function updatescore() {
+		document.getElementById("scoretext").innerHTML = 
+		wins + (wins == 1 ? " Win - ":" Wins - ") +
+		loses + (loses == 1 ? " Lose - ":" Loses - ") +
+		draws + (draws == 1 ? " Draw":" Draws");
+	}
+
+	// makes tile flash red if it was already taken
+	function placetaken(div) {
+		if(div.style.backgroundColor != "rgb(255,255,255)")
+			return;
+		var pos = 0;
+		var id = setInterval(() => {
+			if (pos == 30) {
+				clearInterval(id);
+				div.style.backgroundColor = "rgb(255,255,255)"; 
+			} else {
+				let colorratio = (pos++ / 30) * 255;
+				div.style.backgroundColor = 'rgb(255,' + colorratio + ',' + colorratio + ')';
 			}
+		}, 10);
+	}
+
+	function checkwinner(piece)
+	{
+		// check 3 tiles
+		function rc(tile1, tile2, tile3) {
+			var tiles = [grid[tile1-1], grid[tile2-1], grid[tile3-1]];
+			if(tiles.every(e => e.state == piece)) {
+				tiles.forEach(tile => {
+					var pos = 0;
+					var id = setInterval(() => {
+						if (pos == 20) {
+							clearInterval(id);
+							tile.div.style.backgroundColor = 'rgb(100,255,100)';
+						} else {
+							colorratio = 255-(pos++/20)*155;
+							tile.div.style.backgroundColor = 'rgb(' + colorratio + ',255,' + colorratio + ')';
+						}
+					}, 10);
+				});
+				return true;
+			}
+			return false;
+		}
+		
+		// single checks
+		if(rc(1,2,3) || rc(4,5,6) || rc(7,8,9) || rc(1,5,9) || rc(7,5,3) || rc(1,4,7) || rc(2,5,8) || rc(3,6,9)) {
+			gamedone = true;
+			document.querySelector("#displaywin").innerHTML =  piece + " wins!";
+			document.querySelector("#playagain").hidden = false;
+			piece == playerpiece ? wins++ : loses++;
+			updatescore();
+			return;
+		}
+		
+		// check cats game
+		if(grid.every(e => e.state != '')) {
+			gamedone = true;
+			document.querySelector("#displaywin").innerHTML = "Cat's game!";
+			document.querySelector("#playagain").hidden = false;
+			draws++;
+			updatescore();
+			return;
 		}
 	}
-}
 
-function selecttile(item)
-{
-	if(gamedone)
-		return;
-	if(!playerturn)
-		return;
-	if(item.innerHTML != "")
-		placetaken(item);
-	else
-	{
-		item.innerHTML = "X";
-		checkwinner("X");
+	function computerturn() {
+		if(gamedone)
+			return;
+		var freetiles = grid.filter(e => e.state == '');
+		var tile = freetiles[Math.floor(Math.random() * freetiles.length)];
+		tile.state = computerpiece;
+		tile.div.innerHTML = computerpiece;
+		var pos = 0;
+		var id = setInterval(() => {
+			if (pos == 30) {
+				clearInterval(id);
+				tile.div.style.backgroundColor = "rgb(255,255,255)";
+
+				checkwinner(computerpiece);
+				if(gamedone)
+					return;
+				
+				document.querySelector("#displaywin").innerHTML = "Click a tile to place an " + playerpiece;
+				playerturn = true;		
+			} else {
+				var colorratio = (pos++/30)*255;
+				tile.div.style.backgroundColor = 'rgb(255,255,' + colorratio + ')';
+			}
+		}, 10);
+	}
+
+	function selecttile(div) {
+		if(gamedone || !playerturn)
+			return;
+		var tile = grid.find(e => e.div == div);
+		if(tile.state != '') {
+			placetaken(tile.div);
+			return;
+		}
+
+		tile.div.innerHTML = playerpiece;
+		tile.state = playerpiece;
+		
 		
 		if(gamedone)
 			return;
-		playerturn = false;
-		document.getElementById("displaywin").innerHTML = "O's turn!";
-		setTimeout(computerturn, 500);
-	}
-}
 
-resetgame();
-</script>
+		playerturn = false;
+		document.querySelector("#displaywin").innerHTML = "";
+
+		var pos = 0;
+		var id = setInterval(() => {
+			if (pos == 20) {
+				clearInterval(id);
+				tile.div.style.backgroundColor = "rgb(255,255,255)";
+
+				checkwinner(playerpiece);
+				if(gamedone)
+					return;
+				
+				document.querySelector("#displaywin").innerHTML = computerpiece + "'s turn!";
+				setTimeout(computerturn, 500);
+			} else {
+				colorratio = (pos++/20)*155+100;
+				tile.div.style.backgroundColor = 'rgb(' + colorratio + ',255,255)';
+			}
+		}, 10);
+
+		
+	}
+	</script>
 </body>
 </html>
